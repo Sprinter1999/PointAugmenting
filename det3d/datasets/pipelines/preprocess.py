@@ -144,12 +144,14 @@ class Preprocess(object):
                         masks = box_np_ops.points_in_rbbox(points, sampled_gt_boxes)
                         points = points[np.logical_not(masks.any(-1))]
 
+                    #TODO: PointAugmenting
                     if self.use_img:  # paste imgs
                         res['img'] = procress_image(res['img'], gt_dict)
 
                     # from tools.visualization import show_pts_in_box
                     # show_pts_in_box(points, sampled_points)
 
+                    #TODO: PointAugmenting
                     points, gt_boxes_mask = procress_points(points, sampled_points, gt_boxes_mask, gt_dict)
 
             if self.use_img:

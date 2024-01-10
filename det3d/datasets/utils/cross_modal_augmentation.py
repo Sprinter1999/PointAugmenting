@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 from det3d.core.bbox import box_np_ops
 
+#TODO: PointAugmenting
 
 def transform2Spherical(points):
     pts_r = np.sqrt(np.square(points[:, 0]) + np.square(points[:, 1]) + np.square(points[:, 2]))
