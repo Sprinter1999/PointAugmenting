@@ -4,6 +4,7 @@ from det3d.utils import build_from_cfg
 from ..registry import PIPELINES
 
 
+#TODO: 组合各种数据增强
 @PIPELINES.register_module
 class Compose(object):
     def __init__(self, transforms):

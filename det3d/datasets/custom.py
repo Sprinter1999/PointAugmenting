@@ -7,6 +7,7 @@ from torch.utils.data import Dataset
 from .registry import DATASETS
 from .pipelines import Compose
 
+#TODO: 一个基类，让具体的数据集去继承
 
 @DATASETS.register_module
 class PointCloudDataset(Dataset):

@@ -27,6 +27,7 @@ from det3d.datasets.nuscenes.nusc_common import (
 from det3d.datasets.registry import DATASETS
 
 
+#TODO: 继承了../custom.py中的PointCloudDataset类
 @DATASETS.register_module
 class NuScenesDataset(PointCloudDataset):
     NumPointFeatures = 5  # x, y, z, intensity, ring_index
@@ -219,7 +220,7 @@ class NuScenesDataset(PointCloudDataset):
             } if self.use_img else None,
 
             "mode": "val" if self.test_mode else "train",
-            "painted": self.painted,
+            "painted": self.painted, # 这个self.painted有点没懂是什么意思
         }
 
         if self.use_img:
