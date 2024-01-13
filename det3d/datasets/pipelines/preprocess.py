@@ -103,6 +103,8 @@ class Preprocess(object):
                 calib = res["calib"] if "calib" in res else None
                 selected_feature = np.ones([5 + 3])  # xyzrt, u v cam_id
                 selected_feature[5:5 + 3] = 1. if self.use_img else 0.
+
+                #TODO: 直接return了被采样的目标们
                 sampled_dict = self.db_sampler.sample_all_v2(
                     res["metadata"]["image_prefix"],
                     gt_dict["gt_boxes"],
