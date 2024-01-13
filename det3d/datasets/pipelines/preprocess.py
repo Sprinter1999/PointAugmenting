@@ -136,6 +136,9 @@ class Preprocess(object):
                         gt_dict["patch_path"] = np.concatenate(
                             [[['']*6 for i in range(origin_num)], sampled_dict["patch_path"]], axis=0)
 
+
+                    #TODO: 本质上，将sampled_gt_boxes的信息装饰到gt_dict
+                        
                     # gt_boxes放最后
                     gt_dict["gt_names"] = np.concatenate([gt_dict["gt_names"], sampled_gt_names], axis=0)
                     gt_dict["gt_boxes"] = np.concatenate([gt_dict["gt_boxes"], sampled_gt_boxes])
