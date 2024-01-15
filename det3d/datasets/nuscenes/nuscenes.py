@@ -91,7 +91,9 @@ class NuScenesDataset(PointCloudDataset):
         random.shuffle(self._nusc_infos_all)
         self._nusc_infos = self._nusc_infos_all[: self.frac]
 
-    def load_infos(self, info_path):
+
+    #TODO: 从pkl文件中把每一条数据的data dict读出来
+    def load_infos(self, info_path):                                  
 
         with open(self._info_path, "rb") as f:
             _nusc_infos_all = pickle.load(f)

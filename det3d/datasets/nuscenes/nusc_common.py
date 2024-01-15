@@ -473,13 +473,15 @@ def _fill_trainval_infos(nusc, train_scenes, val_scenes, test=False, nsweeps=10,
 
             assert len(annotations) == len(gt_boxes) == len(velocity)
 
+            #FIXME: 在这里获取frustum
             # get box frustum in lidar view
             from det3d.core.bbox import box_np_ops
             from det3d.datasets.utils.cross_modal_augmentation import transform2Spherical
             num_box = gt_boxes.shape[0]
             gt_box_corners = box_np_ops.center_to_corner_box3d(
                 gt_boxes[:, :3], gt_boxes[:, 3:6], gt_boxes[:, -1],).reshape(-1, 3)  # N * 8 * 3 - (N*8)*3
-
+            
+            #TODO: 输入的三维笛卡尔坐标系下的点集转换为球坐标系下的表示
             pts_rr = transform2Spherical(gt_box_corners)
             pts_rr = pts_rr.reshape(num_box, 8, 3)
 
@@ -557,6 +559,7 @@ def quaternion_yaw(q: Quaternion) -> float:
     return yaw
 
 
+# 在create info的时候，就把frustum填充进去了
 def create_nuscenes_infos(root_path, version="v1.0-trainval", nsweeps=10, rate=1., filter_zero=True):
     nusc = NuScenes(version=version, dataroot=root_path, verbose=True)
     available_vers = ["v1.0-trainval", "v1.0-test", "v1.0-mini"]
@@ -607,6 +610,8 @@ def create_nuscenes_infos(root_path, version="v1.0-trainval", nsweeps=10, rate=1
     else:
         print(f"train scene: {len(train_scenes)}, val scene: {len(val_scenes)}")
 
+
+    #TODO: 在这里填充好了frustum信息
     train_nusc_infos, val_nusc_infos = _fill_trainval_infos(
         nusc, train_scenes, val_scenes, test, nsweeps=nsweeps, filter_zero=filter_zero
     )

@@ -32,8 +32,11 @@ def create_groundtruth_database(
         },
         {"type": "LoadPointCloudAnnotations", "with_bbox": True, "use_img": True},
     ]
+    
 
+    #TODO: create datasets entity
     if "nsweeps" in kwargs:
+        #TODO: callee of det3d\datasets\nuscenes\nuscenes.py: NuScenesDataset
         dataset = get_dataset(dataset_class_name)(
             info_path=info_path,
             root_path=data_path,
@@ -76,6 +79,8 @@ def create_groundtruth_database(
     for index in tqdm(range(len(dataset))):
         image_idx = index
         # modified to nuscenes
+
+        # 此时，所有的data都已经完整写入dataset了，可根据索引进行访问
         sensor_data = dataset.get_sensor_data(index)
         if "image_idx" in sensor_data["metadata"]:
             image_idx = sensor_data["metadata"]["image_idx"]
