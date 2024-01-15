@@ -228,7 +228,8 @@ class NuScenesDataset(PointCloudDataset):
         if self.use_img:
             img = [cv2.imread(info['cam_paths'][cam_sensor]) for cam_sensor in self.cam_name]
             res['img'] = np.stack(img, axis=0)
-
+        
+        #TODO: Data Processing & Augmenting Pipeline
         data, _ = self.pipeline(res, info)
 
         if self.use_img:

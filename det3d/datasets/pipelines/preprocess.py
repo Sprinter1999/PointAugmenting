@@ -104,7 +104,7 @@ class Preprocess(object):
                 selected_feature = np.ones([5 + 3])  # xyzrt, u v cam_id
                 selected_feature[5:5 + 3] = 1. if self.use_img else 0.
 
-                #TODO: 直接return了被采样的目标们
+                #TODO: 直接return了被采样的目标们，在这里sample的时候，将当前帧传进来了，同时考虑冲突的问题
                 sampled_dict = self.db_sampler.sample_all_v2(
                     res["metadata"]["image_prefix"],
                     gt_dict["gt_boxes"],
@@ -137,7 +137,7 @@ class Preprocess(object):
                             [[['']*6 for i in range(origin_num)], sampled_dict["patch_path"]], axis=0)
 
 
-                    #TODO: 本质上，将sampled_gt_boxes的信息装饰到gt_dict
+                    #TODO: 本质上，将 sampled_gt_boxes 的信息装饰到gt_dict
                         
                     # gt_boxes放最后
                     gt_dict["gt_names"] = np.concatenate([gt_dict["gt_names"], sampled_gt_names], axis=0)
