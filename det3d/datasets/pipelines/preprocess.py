@@ -52,6 +52,8 @@ class Preprocess(object):
 
         self.use_img = cfg.get("use_img", False)
 
+
+    #FIXME: check这一块能否接入UniTR的代码库
     def __call__(self, res, info):
 
         res["mode"] = self.mode
