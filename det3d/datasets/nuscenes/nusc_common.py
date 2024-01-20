@@ -616,6 +616,7 @@ def create_nuscenes_infos(root_path, version="v1.0-trainval", nsweeps=10, rate=1
 
 
     #TODO: 在这里填充好了frustum信息
+    # [list]
     train_nusc_infos, val_nusc_infos = _fill_trainval_infos(
         nusc, train_scenes, val_scenes, test, nsweeps=nsweeps, filter_zero=filter_zero
     )
