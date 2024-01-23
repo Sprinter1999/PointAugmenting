@@ -320,6 +320,7 @@ class DataBaseSamplerV2:
                     # sampled_cls = self.sample_class_v2(
                     #     class_name, sampled_num, avoid_coll_boxes,
                     # )
+                    #FIXME: sample_class_v3
                     sampled_cls = self.sample_class_v3(
                         class_name, sampled_num, avoid_coll_boxes, avoid_coll_frustums
                     )
@@ -631,6 +632,9 @@ class DataBaseSamplerV2:
         valid_mask = np.concatenate(
             [valid_mask, np.ones([sp_boxes.shape[0]], dtype=np.bool_)], axis=0
         )
+
+
+        #TODO: 此处的boxes已将gt_boxes和sp_boxes合并
         boxes = np.concatenate([gt_boxes, sp_boxes], axis=0).copy()
         if self._enable_global_rot:
             # place samples to any place in a circle.
@@ -638,6 +642,9 @@ class DataBaseSamplerV2:
                 boxes, None, valid_mask, 0, 0, self._global_rot_range, num_try=100
             )
 
+        #FIXME: 需要搞懂
+            
+        #TODO: 碰撞测试1： 调用这个函数的返回结果会将输入的目标位置、尺寸和角度信息转换成平面上表示目标的四个角的坐标信息，阈值0.7
         sp_boxes_new = boxes[gt_boxes.shape[0]:]
         sp_boxes_bv = box_np_ops.center_to_corner_box2d(
             sp_boxes_new[:, 0:2], sp_boxes_new[:, 3:5], sp_boxes_new[:, -1]
@@ -648,6 +655,8 @@ class DataBaseSamplerV2:
         coll_mat = prep.box_collision_test(total_bv, total_bv)
 
         sp_frustums = np.stack([i["frustum"] for i in sampled], axis=0)
+
+        #TODO: 碰撞测试2： 计算了每个视锥的体积，并存储在数组 `S` 中，为了后续计算体积的IOU 时使用，阈值0.7
         frustum_coll_mat = self.frustum_collision_test(gt_frustums, sp_frustums)
         coll_mat = np.logical_or(coll_mat, frustum_coll_mat)
 
